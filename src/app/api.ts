@@ -1,7 +1,7 @@
 import { Series } from "@/types";
 
 const url =
-  "https://netflix54.p.rapidapi.com/search/?query=stranger&offset=0&limit_titles=10&limit_suggestions=10&lang=en";
+  "https://netflix54.p.rapidapi.com/search/?query=stranger&offset=0&limit_titles=100&limit_suggestions=10&lang=en";
 
 const options = {
   method: "GET",
@@ -15,7 +15,6 @@ const api = {
     list: async (): Promise<Series> => {
       let data = await fetch(url, options)
         .then((res) => res.json())
-        // .then((json) => console.log(json))
         .catch((err) => console.error("error:" + err));
       return data as Series;
     },
