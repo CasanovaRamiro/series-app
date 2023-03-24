@@ -12,11 +12,16 @@ function CardBoard({ titles }: Props) {
   const [series, setSeries] = useState(titles);
   const [filter, setFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
+  const [query, setQuery] = useState("");
   useEffect(() => {
     let filtered: Title[] =
       typeFilter === "all"
         ? titles
         : titles.filter((title) => title.jawSummary.type === typeFilter);
+
+    filtered = filtered.filter((t) =>
+      t.jawSummary.title.toLowerCase().includes(query.toLowerCase())
+    );
 
     filtered =
       filter === "all"
@@ -27,13 +32,16 @@ function CardBoard({ titles }: Props) {
             );
           });
     setSeries(filtered);
-  }, [filter, typeFilter]);
+  }, [filter, typeFilter, query]);
   return (
     <>
       <Filters
         titles={titles}
         setFilter={setFilter}
         setTypeFilter={setTypeFilter}
+        setSeries={setSeries}
+        query={query}
+        setQuery={setQuery}
       />
 
       <div className="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">

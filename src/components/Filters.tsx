@@ -1,20 +1,44 @@
-"use client";
 import { Title } from "@/types";
+import SearchBar from "./SearchBar";
 
 type Props = {
   titles: Title[];
   setFilter: any;
   setTypeFilter: any;
+  setSeries: any;
+  query: string;
+  setQuery: any;
 };
-function Filters({ titles, setFilter, setTypeFilter }: Props) {
+function Filters({
+  titles,
+  setFilter,
+  setTypeFilter,
+  setSeries,
+  query,
+  setQuery,
+}: Props) {
   let categories: string[] = [];
   titles.forEach((title) =>
     title.jawSummary.genres.forEach((genre) => categories.push(genre.name))
   );
   categories = [...new Set(categories)];
 
+  const handleReset = () => {
+    setFilter("all");
+    setTypeFilter("all");
+    setSeries(titles);
+  };
+
   return (
     <div className="flex-wrap flex  justify-around p-5">
+      <button onClick={() => handleReset()}>Reset</button>
+      <SearchBar
+        titles={titles}
+        handleReset={handleReset}
+        setSeries={setSeries}
+        query={query}
+        setQuery={setQuery}
+      />
       <select
         onChange={(e) => setTypeFilter(e.target.value)}
         id="Type"
